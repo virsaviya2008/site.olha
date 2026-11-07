@@ -1111,6 +1111,18 @@ body.modal-open { overflow: hidden; }
 .nav__phone { display: inline-flex; align-items: center; min-height: 44px; }
 .icon-btn { flex-shrink: 0; }
 
+/* ---------- Пометка демо-проекта ---------- */
+.demo-bar {
+  margin: 0; padding: 8px var(--gutter); text-align: center;
+  background: var(--c-text); color: var(--c-bg); font-size: var(--fs-xs); line-height: 1.4;
+}
+.demo-bar strong { font-weight: 700; }
+.demo-tag {
+  display: inline-block; padding: 2px 8px; margin-right: 4px; border-radius: 999px;
+  background: var(--c-text); color: var(--c-bg); font-size: 11px; font-weight: 700; letter-spacing: .04em; vertical-align: 1px;
+}
+.footer__demo { margin-top: var(--s-1); }
+
 /* ---------- Для тех, кто отключил анимации ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0s !important; }

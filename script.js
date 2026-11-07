@@ -68,6 +68,8 @@
   function setMenu(open) {
     burger.setAttribute('aria-expanded', String(open));
     burger.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
+    // меню начинается сразу под шапкой (над шапкой может быть полоса «Демо-проект»)
+    if (open) nav.style.top = Math.max(0, header.getBoundingClientRect().bottom) + 'px';
     nav.classList.toggle('is-open', open);
     document.body.classList.toggle('menu-open', open);
     if (open) $('.nav__link', nav).focus();
@@ -373,7 +375,7 @@
       const iso = isoDate(d);
       const label = document.createElement('label');
       label.className = 'slot slot--date';
-      const dow = i === 0 ? 'сег' : i === 1 ? 'зав' : DOW[d.getDay()];
+      const dow = DOW[d.getDay()];
       label.innerHTML = `<input type="radio" name="date" value="${iso}"><span class="slot__dow">${dow}</span><span class="slot__day">${d.getDate()}</span>`;
       label.setAttribute('aria-label', fmtDateLong(iso));
       const input = label.querySelector('input');
@@ -410,10 +412,17 @@
   }
 
   /* --- Шаг 4: телефон --- */
-  function formatPhone(value) {
+  // 10 цифр номера без кода страны. Понимает любой привычный ввод:
+  // «916…», «8 916…», «+7 916…», а также «8…» или «+7…», набранные поверх подставленного «+7 »
+  function phoneCore(value) {
     let d = value.replace(/\D/g, '');
-    if (d.startsWith('8') || d.startsWith('7')) d = d.slice(1);
-    d = d.slice(0, 10);
+    if (value.trim().startsWith('+7')) d = d.slice(1);            // «+7» из маски
+    else if (d.length === 11 && /^[78]/.test(d)) d = d.slice(1);  // вставили «8916…» / «7916…»
+    if (d.length > 10 && /^[78]/.test(d)) d = d.slice(1);         // повторный код страны
+    return d.slice(0, 10);
+  }
+  function formatPhone(value) {
+    const d = phoneCore(value);
     let out = '+7';
     if (d.length) out += ' (' + d.slice(0, 3);
     if (d.length >= 3) out += ')';
@@ -422,7 +431,7 @@
     if (d.length > 8) out += '-' + d.slice(8, 10);
     return out;
   }
-  const phoneDigits = () => phoneInput.value.replace(/\D/g, '').replace(/^[78]/, '');
+  const phoneDigits = () => phoneCore(phoneInput.value);
   phoneInput.addEventListener('focus', () => { if (!phoneInput.value) phoneInput.value = '+7 '; });
   phoneInput.addEventListener('blur', () => { if (phoneInput.value.replace(/\D/g, '') === '7') phoneInput.value = ''; });
   phoneInput.addEventListener('input', (e) => {
@@ -468,7 +477,8 @@
       const digits = phoneDigits();
       if (!digits.length) { setError(phoneInput, '#f-phone-error', 'Укажите телефон, чтобы мы подтвердили запись'); first = first || phoneInput; }
       else if (digits.length < 10) { setError(phoneInput, '#f-phone-error', `В номере не хватает ${10 - digits.length} ${plural(10 - digits.length, ['цифры', 'цифр', 'цифр'])}`); first = first || phoneInput; }
-      else if (!/^[3489]/.test(digits)) { setError(phoneInput, '#f-phone-error', 'Проверьте код оператора'); first = first || phoneInput; }
+      // В зоне +7 номера начинаются с 3–9 (9 — мобильные, 3/4/8 — городские, 7 — Казахстан)
+      else if (!/^[3-9]/.test(digits)) { setError(phoneInput, '#f-phone-error', 'Номер после +7 не может начинаться с 0, 1 или 2'); first = first || phoneInput; }
       if (!consentInput.checked) { setError(consentInput, '#f-consent-error', 'Без согласия мы не сможем принять запись'); first = first || consentInput; }
       if (first) { first.focus(); return false; }
     }

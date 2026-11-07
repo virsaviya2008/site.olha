@@ -7,6 +7,8 @@
   <meta name="description" content="Маникюр, педикюр, брови, ресницы и окрашивание у м. Новослободская. Стерилизация сухожаром, мастера с опытом от 5 лет, гарантия на покрытие 14 дней. Онлайн-запись без предоплаты.">
   <link rel="canonical" href="https://olha-salon.ru/">
   <meta name="theme-color" content="#F6F2EE">
+  <!-- Демо-проект: убрать noindex, когда сайт будет работать с реальными данными салона -->
+  <meta name="robots" content="noindex, nofollow">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -28,7 +30,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap">
 
-  <link rel="stylesheet" href="styles.css?v=6">
+  <link rel="stylesheet" href="styles.css?v=7">
 
   <script type="application/ld+json">
   {
@@ -98,6 +100,9 @@
   </svg>
 
   <a class="skip-link" href="#main">Перейти к содержимому</a>
+
+  <!-- Пометка демо-проекта: удалить вместе со стилями .demo-bar при запуске реального сайта -->
+  <p class="demo-bar" role="note"><strong>Демо-проект:</strong> салон и отзывы вымышлены</p>
 
   <!-- ========== 1. Шапка ========== -->
   <header class="header" id="header">
@@ -638,7 +643,7 @@
           <div class="stars" aria-hidden="true">
             <svg class="icon icon--star"><use href="#i-star"/></svg><svg class="icon icon--star"><use href="#i-star"/></svg><svg class="icon icon--star"><use href="#i-star"/></svg><svg class="icon icon--star"><use href="#i-star"/></svg><svg class="icon icon--star"><use href="#i-star"/></svg>
           </div>
-          <p class="reviews__src">Отзывы с Яндекс Карт и 2ГИС. Публикуем без редактирования.</p>
+          <p class="reviews__src"><span class="demo-tag">Демо</span> Отзывы вымышлены. В рабочем сайте здесь будут реальные отзывы с Яндекс Карт и 2ГИС.</p>
           <div class="reviews__links">
             <a class="link-arrow" href="https://yandex.ru/maps/org/olha/0000000000/reviews/" target="_blank" rel="noopener">Все отзывы на Яндекс Картах <svg class="icon" aria-hidden="true"><use href="#i-external"/></svg></a>
             <a class="link-arrow" href="https://2gis.ru/moscow/firm/0000000000/tab/reviews" target="_blank" rel="noopener">Отзывы в 2ГИС <svg class="icon" aria-hidden="true"><use href="#i-external"/></svg></a>
@@ -911,6 +916,7 @@
     <div class="container" aria-hidden="true"><p class="footer__wordmark">Ольха</p></div>
     <div class="container footer__bottom">
       <p>© <span id="year">2026</span> Салон красоты «Ольха». Имеются противопоказания, необходима консультация специалиста.</p>
+      <p class="footer__demo">Демо-проект: салон, мастера, контакты, реквизиты и отзывы вымышлены. Заявки с формы никуда не отправляются.</p>
     </div>
   </footer>
 
@@ -947,6 +953,6 @@
   </dialog>
 
   <!-- При каждом обновлении стилей или скрипта увеличивайте ?v=, чтобы браузеры посетителей не брали старую версию из кэша -->
-  <script src="script.js?v=2" defer></script>
+  <script src="script.js?v=4" defer></script>
 </body>
 </html>
